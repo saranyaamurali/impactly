@@ -1,0 +1,20 @@
+{
+  "name": "impactly",
+  "version": "1.0.0",
+  "description": "A full-stack web application",
+  "main": "backend/server.js",
+  "scripts": {
+    "start": "npm run dev:backend",
+    "dev:backend": "node backend/server.js",
+    "dev:frontend": "cd frontend && npm start",
+    "dev": "concurrently \"npm run dev:backend\" \"npm run dev:frontend\"",
+    "build": "cd frontend && npm run build",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "concurrently": "^7.6.0"
+  }
+}
