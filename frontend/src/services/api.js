@@ -23,6 +23,72 @@ const http = axios.create({
   timeout: 10000,
 });
 
+const AUTH_TOKEN_KEY = "impactly_token";
+
+export const initializeAuthToken = () => {
+  if (typeof window === "undefined") {
+    return;
+  }
+
+  const token = window.localStorage.getItem(AUTH_TOKEN_KEY);
+  if (token) {
+    http.defaults.headers.common.Authorization = `Bearer ${token}`;
+  }
+};
+
+export const setAuthToken = (token) => {
+  if (typeof window === "undefined") {
+    return;
+  }
+
+  if (token) {
+    window.localStorage.setItem(AUTH_TOKEN_KEY, token);
+    http.defaults.headers.common.Authorization = `Bearer ${token}`;
+    return;
+  }
+
+  window.localStorage.removeItem(AUTH_TOKEN_KEY);
+  delete http.defaults.headers.common.Authorization;
+};
+
+export const getAuthToken = () => {
+  if (typeof window === "undefined") {
+    return "";
+  }
+
+  return window.localStorage.getItem(AUTH_TOKEN_KEY) || "";
+};
+
+export const registerCorporate = async (payload) => {
+  const { data } = await http.post("/auth/register", payload);
+  return data;
+};
+
+export const loginCorporate = async (payload) => {
+  const { data } = await http.post("/auth/login", payload);
+  return data;
+};
+
+export const fetchCorporateMe = async () => {
+  const { data } = await http.get("/corporate/me");
+  return data;
+};
+
+export const updateCorporateMe = async (payload) => {
+  const { data } = await http.put("/corporate/me", payload);
+  return data;
+};
+
+export const createCsrProject = async (payload) => {
+  const { data } = await http.post("/csr-project", payload);
+  return data;
+};
+
+export const fetchMyCsrProjects = async () => {
+  const { data } = await http.get("/csr-project/my-projects");
+  return data;
+};
+
 export const fetchPublicProjects = async (params = {}) => {
   const { data } = await http.get("/csr-project/public", { params });
   return data;
@@ -55,6 +121,11 @@ export const fetchCompanies = async (params = {}) => {
 
 export const fetchNgos = async (params = {}) => {
   const { data } = await http.get("/ecosystem/ngos", { params });
+  return data;
+};
+
+export const fetchCompanyInformation = async (params = {}) => {
+  const { data } = await http.get("/ecosystem/companies-information", { params });
   return data;
 };
 

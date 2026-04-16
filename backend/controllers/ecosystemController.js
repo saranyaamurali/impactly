@@ -1,6 +1,7 @@
 const {
   filterCompanies,
   filterNgos,
+  filterCompanyInformationEntries,
   filterNgoInformationEntries,
 } = require("../services/dataStore");
 
@@ -37,8 +38,22 @@ const getNgoInformationEntries = (req, res) => {
   return res.status(200).json(data);
 };
 
+const getCompanyInformationEntries = (req, res) => {
+  const { focus, region, search, page, limit } = req.query;
+  const data = filterCompanyInformationEntries({
+    focus,
+    region,
+    search,
+    page,
+    limit,
+  });
+
+  return res.status(200).json(data);
+};
+
 module.exports = {
   getCompanies,
   getNgos,
+  getCompanyInformationEntries,
   getNgoInformationEntries,
 };

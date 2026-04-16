@@ -664,6 +664,24 @@ const csrInformationProjects = csrInformationOrganizations.flatMap((org, orgInde
   })
 );
 
+const companyInformationEntries = csrInformationOrganizations.flatMap((org, orgIndex) =>
+  csrInformationThemes.map((theme, themeIndex) => {
+    const [name, officialWebsite] = org;
+    const [focusArea, descriptor] = theme;
+    const serial = orgIndex * csrInformationThemes.length + themeIndex + 1;
+    return {
+      id: `company-info-${String(serial).padStart(3, "0")}`,
+      name,
+      focusArea,
+      region: "India",
+      profile: `${descriptor}. Listed as a public information-view company profile for ecosystem discovery.`,
+      officialWebsite,
+      informationType: "public-information-view",
+      status: "information-view",
+    };
+  })
+);
+
 const ngoInformationOrganizations = [
   ["Pratham", "https://www.pratham.org/", "Pan-India"],
   ["Goonj", "https://goonj.org/", "North and East India"],
@@ -821,6 +839,20 @@ const filterNgoInformationEntries = ({ focus, region, search, page, limit }) => 
   return paginate(filtered, page, limit);
 };
 
+const filterCompanyInformationEntries = ({ focus, region, search, page, limit }) => {
+  const filtered = companyInformationEntries.filter((item) => {
+    const focusPass = focus ? containsText(item.focusArea, focus) : true;
+    const regionPass = region ? containsText(item.region, region) : true;
+    const searchPass = search
+      ? containsText(`${item.name} ${item.profile} ${item.focusArea}`, search)
+      : true;
+
+    return focusPass && regionPass && searchPass;
+  });
+
+  return paginate(filtered, page, limit);
+};
+
 module.exports = {
   publicProjects,
   blogs,
@@ -828,10 +860,12 @@ module.exports = {
   csrInformationProjects,
   companies,
   ngos,
+  companyInformationEntries,
   ngoInformationEntries,
   filterPublicProjects,
   filterCsrInformationProjects,
   filterCompanies,
   filterNgos,
+  filterCompanyInformationEntries,
   filterNgoInformationEntries,
 };

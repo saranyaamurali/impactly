@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { fetchCompanies } from "../services/api";
 
 function EcosystemCompaniesPage() {
@@ -42,6 +43,15 @@ function EcosystemCompaniesPage() {
           Curated informational directory for ecosystem understanding. This is
           not a direct participation or contact marketplace.
         </p>
+
+        <div className="ad-strip">
+          <p className="eyebrow">Ad Space</p>
+          <h3>Company Campaign Promotion Slot</h3>
+          <p>Reserved for paid awareness campaigns and partner highlights.</p>
+          <Link className="btn btn-secondary" to="/ecosystem/companies-information">
+            Open 100+ Company Information View
+          </Link>
+        </div>
 
         <div className="filters-grid">
           <label>

@@ -104,7 +104,7 @@ function HomePage() {
             </p>
             <div className="cta-row">
               <Link className="btn btn-primary" to="/csr-projects">
-                Explore Existing CSR Projects
+                Explore Current SCR Projects
               </Link>
               <Link className="btn btn-secondary" to="/csr-projects/information">
                 Explore 100+ CSR Information
