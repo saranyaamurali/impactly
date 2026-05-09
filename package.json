@@ -4,7 +4,11 @@
   "description": "A full-stack web application",
   "main": "backend/server.js",
   "scripts": {
+<<<<<<< HEAD
     "start": "npm run dev:backend",
+=======
+    "start": "npm run dev",
+>>>>>>> ngo-admin
     "dev:backend": "node backend/server.js",
     "dev:frontend": "cd frontend && npm start",
     "dev": "concurrently \"npm run dev:backend\" \"npm run dev:frontend\"",
@@ -15,6 +19,20 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+<<<<<<< HEAD
     "concurrently": "^7.6.0"
+=======
+    "bcryptjs": "^3.0.3",
+    "concurrently": "^7.6.0",
+    "cors": "^2.8.5",
+    "dotenv": "^17.4.2",
+    "express": "^4.21.2",
+    "jsonwebtoken": "^9.0.3",
+    "mongoose": "^8.15.2",
+    "morgan": "^1.10.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.10"
+>>>>>>> ngo-admin
   }
 }
