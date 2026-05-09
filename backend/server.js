@@ -20,6 +20,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(morgan('combined'));
 
+
 // Connect to MongoDB
 db();
 
@@ -29,11 +30,9 @@ const ngoAuthRoutes = require('./routes/ngoAuthRoutes');
 const corporateAuthRoutes = require('./routes/corporateAuthRoutes');
 
 const ngoRoutes = require('./routes/ngoRoutes');
-const csrProjectRoutes = require('./routes/csrProjectRoutes');
 const corporateRoutes = require('./routes/corporateRoutes');
-const blogRoutes = require('./routes/blogRoutes');
 const ecosystemRoutes = require('./routes/ecosystemRoutes');
-const matchmakingRoutes = require('./routes/matchmakingRoutes');
+const csrArticleRoutes = require('./routes/csrArticleRoutes');
 
 
 // Mount routes
@@ -43,11 +42,9 @@ app.use('/api/auth', ngoAuthRoutes);
 app.use('/api/corporate-auth', corporateAuthRoutes);
 
 app.use('/api/ngo', ngoRoutes);
-app.use('/api/csr-project', csrProjectRoutes);
 app.use('/api/corporate', corporateRoutes);
-app.use('/api/blog', blogRoutes);
 app.use('/api/ecosystem', ecosystemRoutes);
-app.use('/api/matchmaking', matchmakingRoutes);
+app.use('/api/csr', csrArticleRoutes);
 
 // Health check endpoint
 app.get('/api/health', (req, res) => {
