@@ -41,22 +41,9 @@ const MainLayout = ({ children, isLoggedIn, userRole, onLogout }) => {
             >
               Home
             </Link>
-            <Link 
-              to="/public-projects" 
-              className="nav-link"
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              Projects
-            </Link>
+
             <Link 
               to="/csr/information" 
-              className="nav-link"
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              CSR Info
-            </Link>
-            <Link 
-              to="/blogs" 
               className="nav-link"
               onClick={() => setMobileMenuOpen(false)}
             >
@@ -73,13 +60,7 @@ const MainLayout = ({ children, isLoggedIn, userRole, onLogout }) => {
                 >
                   Dashboard
                 </Link>
-                <Link 
-                  to="/corporate/project/submit" 
-                  className="nav-link"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  New Project
-                </Link>
+
               </>
             )}
 
@@ -110,6 +91,19 @@ const MainLayout = ({ children, isLoggedIn, userRole, onLogout }) => {
               </>
             )}
 
+            {/* Admin Links */}
+            {userRole === 'admin' && (
+              <>
+                <Link 
+                  to="/admin/dashboard" 
+                  className="nav-link active-role"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  Admin Dashboard
+                </Link>
+              </>
+            )}
+
             {/* Auth Links */}
             <div className="nav-auth">
               {!isLoggedIn ? (
@@ -128,12 +122,20 @@ const MainLayout = ({ children, isLoggedIn, userRole, onLogout }) => {
                   >
                     Corporate Login
                   </Link>
+                  <Link 
+                    to="/admin/login" 
+                    className="nav-link"
+                    style={{ fontSize: '0.85rem', opacity: 0.8 }}
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    Admin Login
+                  </Link>
                 </>
               ) : (
                 <>
                   <span className="nav-role">
-                    {userRole === 'ngo' ? '🏢' : '🏭'} 
-                    {userRole === 'ngo' ? ' NGO' : ' Corporate'}
+                    {userRole === 'ngo' ? '🏢' : userRole === 'corporate' ? '🏭' : '🛡️'} 
+                    {userRole === 'ngo' ? ' NGO' : userRole === 'corporate' ? ' Corporate' : ' Admin'}
                   </span>
                   <button 
                     className="nav-button logout-btn"
@@ -160,21 +162,13 @@ const MainLayout = ({ children, isLoggedIn, userRole, onLogout }) => {
             <h4>About</h4>
             <p>Connecting corporate CSR with impactful NGOs for sustainable change.</p>
           </div>
-          <div className="footer-section">
-            <h4>Quick Links</h4>
-            <ul>
-              <li><Link to="/">Home</Link></li>
-              <li><Link to="/public-projects">Projects</Link></li>
-              <li><Link to="/blogs">Blog</Link></li>
-              <li><Link to="/ecosystem/companies">Companies</Link></li>
-            </ul>
-          </div>
+
           <div className="footer-section">
             <h4>Get Involved</h4>
             <ul>
               <li><Link to="/ngo/register">Register as NGO</Link></li>
               <li><Link to="/corporate/register">Register as Corporate</Link></li>
-              <li><Link to="/csr/information">CSR Information</Link></li>
+              <li><Link to="/csr/information">Blog</Link></li>
             </ul>
           </div>
           <div className="footer-section">

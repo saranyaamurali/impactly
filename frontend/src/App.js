@@ -5,11 +5,7 @@ import ProtectedRoute from './components/ProtectedRoute';
 
 // Pages
 import HomePage from './pages/HomePage';
-import PublicProjectListPage from './pages/PublicProjectListPage';
-import PublicProjectDetailPage from './pages/PublicProjectDetailPage';
 import CsrInformationPage from './pages/CsrInformationPage';
-import BlogListPage from './pages/BlogListPage';
-import BlogDetailPage from './pages/BlogDetailPage';
 import EcosystemCompaniesPage from './pages/EcosystemCompaniesPage';
 import EcosystemNgosPage from './pages/EcosystemNgosPage';
 import CompanyInformationPage from './pages/CompanyInformationPage';
@@ -20,7 +16,6 @@ import CorporateRegisterPage from './pages/CorporateRegisterPage';
 import CorporateLoginPage from './pages/CorporateLoginPage';
 import CorporateDashboardPage from './pages/CorporateDashboardPage';
 import CorporateProfileEditPage from './pages/CorporateProfileEditPage';
-import CorporateProjectSubmitPage from './pages/CorporateProjectSubmitPage';
 
 // NGO Pages
 import NgoLoginPage from './pages/NgoLoginPage';
@@ -33,6 +28,9 @@ import ImpactTrackingPage from './pages/ImpactTrackingPage';
 
 // 404
 import NotFoundPage from './pages/NotFoundPage';
+
+import AdminLoginPage from './pages/AdminLoginPage';
+import AdminDashboardPage from './pages/AdminDashboardPage';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -67,11 +65,7 @@ function App() {
       <Routes>
         {/* Public Routes */}
         <Route path="/" element={<HomePage />} />
-        <Route path="/public-projects" element={<PublicProjectListPage />} />
-        <Route path="/project/:id" element={<PublicProjectDetailPage />} />
         <Route path="/csr/information" element={<CsrInformationPage />} />
-        <Route path="/blogs" element={<BlogListPage />} />
-        <Route path="/blog/:id" element={<BlogDetailPage />} />
         <Route path="/ecosystem/companies" element={<EcosystemCompaniesPage />} />
         <Route path="/ecosystem/ngos" element={<EcosystemNgosPage />} />
         <Route path="/company/:id" element={<CompanyInformationPage />} />
@@ -96,15 +90,6 @@ function App() {
             </ProtectedRoute>
           }
         />
-        <Route
-          path="/corporate/project/submit"
-          element={
-            <ProtectedRoute isLoggedIn={isLoggedIn} userRole={userRole} requiredRole="corporate">
-              <CorporateProjectSubmitPage />
-            </ProtectedRoute>
-          }
-        />
-
         {/* NGO Routes */}
         <Route path="/ngo/register" element={<NgoRegisterPage />} />
         <Route path="/ngo/login" element={<NgoLoginPage />} />
@@ -113,6 +98,17 @@ function App() {
           element={
             <ProtectedRoute isLoggedIn={isLoggedIn} userRole={userRole} requiredRole="ngo">
               <NgoDashboardPage />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Admin Routes */}
+        <Route path="/admin/login" element={<AdminLoginPage />} />
+        <Route
+          path="/admin/dashboard"
+          element={
+            <ProtectedRoute isLoggedIn={isLoggedIn} userRole={userRole} requiredRole="admin">
+              <AdminDashboardPage />
             </ProtectedRoute>
           }
         />

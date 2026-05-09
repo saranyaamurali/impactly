@@ -49,6 +49,7 @@ export const authAPI = {
   loginNgo: (data) => api.post('/auth/login-ngo', data),
   registerCorporate: (data) => api.post('/auth/register', data),
   loginCorporate: (data) => api.post('/auth/login', data),
+  loginAdmin: (data) => api.post('/auth/admin/login', data),
   verifyToken: () => api.post('/auth/verify-token'),
   changePassword: (data) => api.post('/auth/change-password', data),
   resetPassword: (data) => api.post('/auth/reset-password', data),
@@ -73,15 +74,7 @@ export const matchmakingAPI = {
   getRecommendations: (params) => api.get('/matchmaking/recommendations', { params }),
 };
 
-// CSR Project APIs
-export const csrProjectAPI = {
-  getPublicProjects: (params) => api.get('/csr-project/public', { params }),
-  getProjectDetail: (projectId) => api.get(`/csr-project/${projectId}`),
-  createProject: (data) => api.post('/csr-project', data),
-  updateProject: (projectId, data) => api.put(`/csr-project/${projectId}`, data),
-  deleteProject: (projectId) => api.delete(`/csr-project/${projectId}`),
-  getMyProjects: () => api.get('/csr-project/my-projects'),
-};
+
 
 // Impact APIs
 export const impactAPI = {
@@ -106,13 +99,15 @@ export const ecosystemAPI = {
   getStats: () => api.get('/ecosystem/stats'),
 };
 
-// Blog APIs
-export const blogAPI = {
-  getArticles: (params) => api.get('/blog/articles', { params }),
-  getArticleDetail: (articleId) => api.get(`/blog/articles/${articleId}`),
-  createArticle: (data) => api.post('/blog/articles', data),
-  updateArticle: (articleId, data) => api.put(`/blog/articles/${articleId}`, data),
-  deleteArticle: (articleId) => api.delete(`/blog/articles/${articleId}`),
+
+
+// CSR Article APIs
+export const csrArticleAPI = {
+  getArticles: (params) => api.get('/csr/articles', { params }),
+  getArticleDetail: (articleId) => api.get(`/csr/articles/${articleId}`),
+  createArticle: (data) => api.post('/csr/articles', data),
+  updateArticle: (articleId, data) => api.put(`/csr/articles/${articleId}`, data),
+  deleteArticle: (articleId) => api.delete(`/csr/articles/${articleId}`),
 };
 
 // Partnership APIs
@@ -142,22 +137,13 @@ export const setAuthToken = (token) => {
 // Auth functions
 export const loginCorporate = (data) => authAPI.loginCorporate(data);
 export const registerCorporate = (data) => authAPI.registerCorporate(data);
+export const loginAdmin = (data) => authAPI.loginAdmin(data);
 
 // Corporate functions
 export const fetchCorporateMe = () => corporateAPI.getProfile();
 export const updateCorporateMe = (data) => corporateAPI.updateProfile(data);
 
-// CSR Project functions
-export const fetchMyCsrProjects = () => csrProjectAPI.getMyProjects();
-export const createCsrProject = (data) => csrProjectAPI.createProject(data);
-export const fetchPublicProjects = (params) => csrProjectAPI.getPublicProjects(params);
-export const fetchPublicProjectById = (projectId) => csrProjectAPI.getProjectDetail(projectId);
-export const fetchCsrInformationProjects = (params) => csrProjectAPI.getPublicProjects(params);
 
-// Blog functions
-export const fetchBlogs = (params) => blogAPI.getArticles(params);
-export const fetchBlogById = (articleId) => blogAPI.getArticleDetail(articleId);
-export const fetchExternalCsrBlogs = (params) => blogAPI.getArticles(params);
 
 // Ecosystem functions
 export const fetchCompanies = (params) => ecosystemAPI.getCompanies(params);

@@ -1,32 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
-import { fetchPublicProjects, fetchBlogs } from '../services/api';
 import '../styles/HomePage.css';
 
 export default function HomePage() {
-  const [projects, setProjects] = useState([]);
-  const [blogs, setBlogs] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchHomepageData = async () => {
-      try {
-        setLoading(true);
-        const [projectsRes, blogsRes] = await Promise.all([
-          fetchPublicProjects({ limit: 3 }),
-          fetchBlogs({ limit: 3 })
-        ]);
-        setProjects(projectsRes.data?.data || []);
-        setBlogs(blogsRes.data?.data || []);
-      } catch (err) {
-        console.error("Error fetching homepage data:", err);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchHomepageData();
-  }, []);
-
   return (
     <div className="home-container">
       {/* HERO SECTION */}
@@ -135,89 +111,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* FEATURED PROJECTS SECTION */}
-      <section className="home-listings" style={{ backgroundColor: '#fff' }}>
-        <div className="section-header">
-          <h2 className="section-title">Featured CSR Projects</h2>
-          <p className="section-desc">
-            Discover active, verified initiatives ready for your corporate backing.
-          </p>
-        </div>
 
-        {loading ? (
-          <div className="empty-state">Loading active projects...</div>
-        ) : projects.length > 0 ? (
-          <>
-            <div className="listings-grid">
-              {projects.slice(0, 3).map((project) => (
-                <div key={project._id} className="listing-card">
-                  <div className="listing-image-placeholder">
-                    🌱
-                  </div>
-                  <div className="listing-content">
-                    <span className="listing-tag">Active Initiative</span>
-                    <h3 className="listing-title">{project.title}</h3>
-                    <p className="listing-desc">{project.description}</p>
-                    <div className="listing-footer">
-                      <span>Budget: ₹{project.budget?.toLocaleString() || 'N/A'}</span>
-                      <Link to={`/project/${project._id}`} className="listing-link">View Details</Link>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-            <div className="view-all-wrapper">
-              <Link to="/public-projects" className="btn btn-secondary">Explore All Projects</Link>
-            </div>
-          </>
-        ) : (
-          <div className="empty-state">
-            <p>No public projects available at the moment.</p>
-          </div>
-        )}
-      </section>
-
-      {/* RECENT BLOGS SECTION */}
-      <section className="home-listings" style={{ backgroundColor: '#f8fafc' }}>
-        <div className="section-header">
-          <h2 className="section-title">Insights & Resources</h2>
-          <p className="section-desc">
-            Stay ahead with the latest trends in CSR frameworks and social impact stories.
-          </p>
-        </div>
-
-        {loading ? (
-          <div className="empty-state">Loading latest insights...</div>
-        ) : blogs.length > 0 ? (
-          <>
-            <div className="listings-grid">
-              {blogs.slice(0, 3).map((blog) => (
-                <div key={blog._id} className="listing-card">
-                  <div className="listing-image-placeholder" style={{ background: 'linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%)' }}>
-                    📰
-                  </div>
-                  <div className="listing-content">
-                    <span className="listing-tag corporate">Knowledge Base</span>
-                    <h3 className="listing-title">{blog.title}</h3>
-                    <p className="listing-desc">{blog.summary || blog.content?.substring(0, 100) + '...'}</p>
-                    <div className="listing-footer">
-                      <span>{new Date(blog.createdAt || Date.now()).toLocaleDateString()}</span>
-                      <Link to={`/blog/${blog._id}`} className="listing-link">Read Article</Link>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-            <div className="view-all-wrapper">
-              <Link to="/blogs" className="btn btn-secondary">View All Articles</Link>
-            </div>
-          </>
-        ) : (
-          <div className="empty-state">
-            <p>No insights published yet.</p>
-          </div>
-        )}
-      </section>
 
       {/* BOTTOM CTA */}
       <section className="home-cta">

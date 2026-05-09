@@ -1,145 +1,163 @@
-import { useEffect, useMemo, useState } from "react";
-import { fetchCsrInformationProjects } from "../services/api";
+// Add this to fetch from backend instead of hardcoded data
 
-const categories = ["All", "Education", "Healthcare", "Livelihood", "Environment"];
+import { useEffect, useState } from "react";
+import "./CsrInformation.css";
+
+const CATEGORIES = ["All", "CSR Basics", "Legal Compliance", /* ... */];
 
 function CsrInformationPage() {
-  const [items, setItems] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
-  const [search, setSearch] = useState("");
-  const [category, setCategory] = useState("All");
-  const [organization, setOrganization] = useState("");
+  const [articles, setArticles] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState("All");
+  const [searchTerm, setSearchTerm] = useState("");
+  const [loading, setLoading] = useState(false);
 
+  // Fetch articles from backend
   useEffect(() => {
-    const loadInformationProjects = async () => {
+    const fetchArticles = async () => {
       try {
         setLoading(true);
-        const params = { limit: 120 };
+        const params = new URLSearchParams();
 
-        if (search.trim()) {
-          params.search = search.trim();
+        if (selectedCategory !== "All") {
+          params.append("category", selectedCategory);
         }
 
-        if (category !== "All") {
-          params.category = category;
+        if (searchTerm.trim()) {
+          params.append("search", searchTerm.trim());
         }
 
-        if (organization.trim()) {
-          params.organization = organization.trim();
-        }
-
-        const response = await fetchCsrInformationProjects(params);
-        setItems(response.items || []);
-        setError("");
-      } catch (requestError) {
-        setError(
-          "Unable to load CSR information entries. Please ensure the backend is running on port 5000."
+        const response = await fetch(
+          `/api/csr/articles?${params.toString()}`
         );
+        const data = await response.json();
+        setArticles(data.items || []);
+      } catch (error) {
+        console.error("Error fetching articles:", error);
+        setArticles([]);
       } finally {
         setLoading(false);
       }
     };
 
-    loadInformationProjects();
-  }, [search, category, organization]);
+    fetchArticles();
+  }, [selectedCategory, searchTerm]);
 
-  const categoryCounts = useMemo(() => {
-    const grouped = items.reduce((acc, item) => {
-      acc[item.category] = (acc[item.category] || 0) + 1;
-      return acc;
-    }, {});
-
-    return Object.entries(grouped)
-      .map(([name, count]) => `${name}: ${count}`)
-      .join(" | ");
-  }, [items]);
+  // Track clicks when opening article
+  const handleArticleClick = async (articleId) => {
+    try {
+      await fetch(`/api/csr/articles/${articleId}/click`, {
+        method: "POST",
+      });
+    } catch (error) {
+      console.error("Error tracking click:", error);
+    }
+  };
 
   return (
-    <section className="section-wrap">
+    <section className="csr-information-page">
+      {/* Hero Section */}
+      <div className="csr-hero">
+        <div className="container">
+          <p className="eyebrow">CSR Knowledge Center</p>
+          <h1>Your A-to-Z Guide to Corporate Social Responsibility</h1>
+          <p className="hero-description">
+            Explore curated articles, best practices, and resources to understand and implement
+            effective CSR programs that drive meaningful impact.
+          </p>
+        </div>
+      </div>
+
+      {/* Main Content */}
       <div className="container">
-        <p className="eyebrow">CSR Information View</p>
-        <h1>100+ CSR program information entries with official links</h1>
-        <p className="section-intro">
-          This page is an information view designed for discovery. Entries are linked to
-          organization sustainability or CSR pages for public reference.
-        </p>
-
-        <div className="ad-strip">
-          <p className="eyebrow">Ad Space</p>
-          <h3>Featured Sustainability Partner Slot</h3>
-          <p>Reserved banner area for paid placements and campaign promotion.</p>
-        </div>
-
-        <div className="filters-grid">
-          <label>
-            Search
+        {/* Filters Section */}
+        <div className="filters-section">
+          <div className="search-wrapper">
             <input
-              value={search}
-              onChange={(event) => setSearch(event.target.value)}
-              placeholder="Program title, organization, category"
+              type="text"
+              placeholder="Search articles, topics, authors..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="search-input"
             />
-          </label>
-          <label>
-            Category
-            <select
-              value={category}
-              onChange={(event) => setCategory(event.target.value)}
-            >
-              {categories.map((item) => (
-                <option key={item} value={item}>
-                  {item}
-                </option>
-              ))}
-            </select>
-          </label>
-          <label>
-            Organization
-            <input
-              value={organization}
-              onChange={(event) => setOrganization(event.target.value)}
-              placeholder="Tata, Infosys, HCL, NTPC"
-            />
-          </label>
-        </div>
-
-        {!loading && !error && (
-          <div className="summary-tile info-summary">
-            <p className="summary-kicker">Information Coverage</p>
-            <h3>{items.length} entries</h3>
-            <p>{categoryCounts}</p>
+            <span className="search-icon">🔍</span>
           </div>
-        )}
 
-        {loading && <p>Loading CSR information entries...</p>}
-        {error && <p className="error-text">{error}</p>}
+          <div className="category-filter">
+            <p className="filter-label">Filter by Category</p>
+            <div className="category-pills">
+              {CATEGORIES.map((category) => (
+                <button
+                  key={category}
+                  className={`pill ${selectedCategory === category ? "active" : ""}`}
+                  onClick={() => setSelectedCategory(category)}
+                >
+                  {category}
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
 
-        {!loading && !error && (
-          <div className="table-wrap">
-            <table className="info-table">
-              <thead>
-                <tr>
-                  <th>Program Information Entry</th>
-                  <th>Organization</th>
-                  <th>Category</th>
-                  <th>Official Link</th>
-                </tr>
-              </thead>
-              <tbody>
-                {items.map((item) => (
-                  <tr key={item.id}>
-                    <td>{item.title}</td>
-                    <td>{item.organization}</td>
-                    <td>{item.category}</td>
-                    <td>
-                      <a href={item.officialWebsite} target="_blank" rel="noopener noreferrer">
-                        Open source page
-                      </a>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+        {/* Results Header */}
+        <div className="results-header">
+          <h2>{articles.length} Articles Found</h2>
+        </div>
+
+        {/* Articles Grid */}
+        {loading ? (
+          <div className="loading-state">
+            <p>Loading articles...</p>
+          </div>
+        ) : articles.length > 0 ? (
+          <div className="articles-grid">
+            {articles.map((article) => (
+              <article
+                key={article._id}
+                className="article-card"
+                onClick={() => {
+                  handleArticleClick(article._id);
+                  window.open(article.link, "_blank");
+                }}
+              >
+                <div className="article-image-wrapper">
+                  <img
+                    src={article.image}
+                    alt={article.title}
+                    className="article-image"
+                  />
+                  <span className="category-badge">{article.category}</span>
+                </div>
+
+                <div className="article-content">
+                  <h3 className="article-title">{article.title}</h3>
+                  <p className="article-description">{article.description}</p>
+
+                  <div className="article-meta">
+                    <span className="author">{article.author}</span>
+                    <span className="separator">•</span>
+                    <span className="read-time">{article.readTime} read</span>
+                  </div>
+
+                  <a
+                    href={article.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="read-link"
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    Read Full Article →
+                  </a>
+                </div>
+
+                <div className="card-overlay">
+                  <span className="overlay-text">Click to open</span>
+                </div>
+              </article>
+            ))}
+          </div>
+        ) : (
+          <div className="empty-state">
+            <p>No articles found.</p>
           </div>
         )}
       </div>
