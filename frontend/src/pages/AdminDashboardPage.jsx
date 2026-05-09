@@ -23,7 +23,10 @@ export default function AdminDashboardPage() {
   const [articles, setArticles] = useState([]);
   const [pendingProjects, setPendingProjects] = useState([]);
   const [pendingPartnerships, setPendingPartnerships] = useState([]);
+<<<<<<< HEAD
   const [pendingNgos, setPendingNgos] = useState([]);
+=======
+>>>>>>> 9b69005d4586ec2f41ef9a5cbce4270d37a0a929
   const [loading, setLoading] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState('');
@@ -58,6 +61,7 @@ export default function AdminDashboardPage() {
 
   const fetchApprovals = async () => {
     try {
+<<<<<<< HEAD
       const [projectsRes, partnershipsRes, ngosRes] = await Promise.all([
         adminAPI.getPendingProjects(),
         adminAPI.getPendingPartnerships(),
@@ -66,6 +70,14 @@ export default function AdminDashboardPage() {
       setPendingProjects(projectsRes.data.items || []);
       setPendingPartnerships(partnershipsRes.data.items || []);
       setPendingNgos(ngosRes.data.items || []);
+=======
+      const [projectsRes, partnershipsRes] = await Promise.all([
+        adminAPI.getPendingProjects(),
+        adminAPI.getPendingPartnerships(),
+      ]);
+      setPendingProjects(projectsRes.data.items || []);
+      setPendingPartnerships(partnershipsRes.data.items || []);
+>>>>>>> 9b69005d4586ec2f41ef9a5cbce4270d37a0a929
     } catch (err) {
       console.error('Error fetching approvals:', err);
     }
@@ -159,6 +171,7 @@ export default function AdminDashboardPage() {
     }
   };
 
+<<<<<<< HEAD
   const handleVerifyNgo = async (ngoId) => {
     try {
       await adminAPI.verifyNgo(ngoId);
@@ -180,6 +193,8 @@ export default function AdminDashboardPage() {
     }
   };
 
+=======
+>>>>>>> 9b69005d4586ec2f41ef9a5cbce4270d37a0a929
   return (
     <div className="section-wrap" style={{ backgroundColor: '#f8fafc', minHeight: '100vh', padding: '40px 0' }}>
       <div className="container">
@@ -426,6 +441,7 @@ export default function AdminDashboardPage() {
               </div>
             ))
           )}
+<<<<<<< HEAD
           )}
         </div>
 
@@ -469,6 +485,8 @@ export default function AdminDashboardPage() {
               </div>
             ))
           )}
+=======
+>>>>>>> 9b69005d4586ec2f41ef9a5cbce4270d37a0a929
         </div>
 
       </div>

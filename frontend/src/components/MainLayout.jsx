@@ -124,7 +124,11 @@ const MainLayout = ({ children, isLoggedIn, userRole, onLogout }) => {
                   </Link>
                   <Link
                     to="/admin/login"
+<<<<<<< HEAD
                     className="nav-link"
+=======
+                    className="nav-link nav-link-subtle"
+>>>>>>> 9b69005d4586ec2f41ef9a5cbce4270d37a0a929
                     onClick={() => setMobileMenuOpen(false)}
                   >
                     Admin

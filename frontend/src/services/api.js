@@ -64,9 +64,12 @@ export const ngoAPI = {
   getStats: (ngoId) => api.get(`/ngo/${ngoId}/stats`),
   getPartnerships: (ngoId, params) => api.get(`/ngo/${ngoId}/partnerships`, { params }),
   sendProposal: (data) => api.post('/ngo/partnerships/propose', data),
+<<<<<<< HEAD
   uploadDocuments: (formData) => api.post('/ngo/documents/upload', formData, {
     headers: { 'Content-Type': 'multipart/form-data' }
   }),
+=======
+>>>>>>> 9b69005d4586ec2f41ef9a5cbce4270d37a0a929
 };
 
 // Matchmaking APIs
@@ -141,9 +144,12 @@ export const adminAPI = {
   getPendingPartnerships: () => api.get('/admin/partnerships/pending'),
   approvePartnership: (partnershipId) => api.post(`/admin/partnerships/${partnershipId}/approve`),
   rejectPartnership: (partnershipId, data) => api.post(`/admin/partnerships/${partnershipId}/reject`, data),
+<<<<<<< HEAD
   getPendingNgos: () => api.get('/admin/ngos/pending'),
   verifyNgo: (ngoId) => api.post(`/admin/ngos/${ngoId}/verify`),
   rejectNgo: (ngoId) => api.post(`/admin/ngos/${ngoId}/reject`),
+=======
+>>>>>>> 9b69005d4586ec2f41ef9a5cbce4270d37a0a929
 };
 
 // ========== Helper Functions for Token Management ==========

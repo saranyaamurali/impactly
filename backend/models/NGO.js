@@ -85,6 +85,7 @@ const ngoSchema = new mongoose.Schema(
       default: 'pending',
     },
     documents: {
+<<<<<<< HEAD
       certifications: [{
         name: String,
         contentType: String,
@@ -95,6 +96,10 @@ const ngoSchema = new mongoose.Schema(
         contentType: String,
         data: String
       }],
+=======
+      certifications: [String],
+      annualReports: [String],
+>>>>>>> 9b69005d4586ec2f41ef9a5cbce4270d37a0a929
     },
   },
   { timestamps: true }

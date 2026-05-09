@@ -91,7 +91,13 @@ export default function NgoLoginPage() {
               <input type="checkbox" />
               <span>Remember me</span>
             </label>
+<<<<<<< HEAD
 
+=======
+            <Link to="/ngo/forgot-password" className="forgot-password">
+              Forgot password?
+            </Link>
+>>>>>>> 9b69005d4586ec2f41ef9a5cbce4270d37a0a929
           </div>
 
           <button

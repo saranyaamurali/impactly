@@ -79,10 +79,14 @@ function EcosystemNgosPage() {
           <div className="cards-grid">
             {ngos.map((ngo) => (
               <article className="card" key={ngo.id}>
+<<<<<<< HEAD
                 <h3>
                   {ngo.name} 
                   {ngo.verificationStatus === 'verified' && <span title="Verified NGO" style={{ marginLeft: '8px' }}>🛡️</span>}
                 </h3>
+=======
+                <h3>{ngo.name}</h3>
+>>>>>>> 9b69005d4586ec2f41ef9a5cbce4270d37a0a929
                 <p>{ngo.profile}</p>
                 <h4>Focus Areas</h4>
                 <div className="active-filters">

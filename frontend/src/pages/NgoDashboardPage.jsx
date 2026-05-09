@@ -23,9 +23,12 @@ export default function NgoDashboardPage() {
   const [proposalMessage, setProposalMessage] = useState('');
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState('overview');
+<<<<<<< HEAD
   const [uploadFiles, setUploadFiles] = useState(null);
   const [uploadMessage, setUploadMessage] = useState('');
   const [selectedPartnership, setSelectedPartnership] = useState(null);
+=======
+>>>>>>> 9b69005d4586ec2f41ef9a5cbce4270d37a0a929
 
   useEffect(() => {
     fetchNgoData();
@@ -118,6 +121,7 @@ export default function NgoDashboardPage() {
     navigate('/ngo/login');
   };
 
+<<<<<<< HEAD
   const handleFileChange = (e) => {
     setUploadFiles(e.target.files);
   };
@@ -152,6 +156,8 @@ export default function NgoDashboardPage() {
     setSelectedPartnership(null);
   };
 
+=======
+>>>>>>> 9b69005d4586ec2f41ef9a5cbce4270d37a0a929
   if (loading) {
     return <div className="loading-container">Loading NGO Dashboard...</div>;
   }
@@ -188,25 +194,45 @@ export default function NgoDashboardPage() {
         <div className="stat-card">
           <div className="stat-info">
             <h3>Corporate Partners</h3>
+<<<<<<< HEAD
             <p className="stat-value">{partnerships.length || stats.totalPartners}</p>
+=======
+            <p className="stat-value">{stats.totalPartners}</p>
+>>>>>>> 9b69005d4586ec2f41ef9a5cbce4270d37a0a929
           </div>
         </div>
         <div className="stat-card">
           <div className="stat-info">
             <h3>Active Projects</h3>
+<<<<<<< HEAD
             <p className="stat-value">{partnerships.filter(p => p.approvalStatus === 'approved').length || stats.activeProjects}</p>
+=======
+            <p className="stat-value">{stats.activeProjects}</p>
+>>>>>>> 9b69005d4586ec2f41ef9a5cbce4270d37a0a929
           </div>
         </div>
         <div className="stat-card">
           <div className="stat-info">
             <h3>Beneficiaries Reached</h3>
+<<<<<<< HEAD
             <p className="stat-value">{(stats.peopleImpacted || 205000).toLocaleString()}</p>
+=======
+            <p className="stat-value">{stats.peopleImpacted.toLocaleString()}</p>
+>>>>>>> 9b69005d4586ec2f41ef9a5cbce4270d37a0a929
           </div>
         </div>
         <div className="stat-card">
           <div className="stat-info">
             <h3>Funding Received</h3>
+<<<<<<< HEAD
             <p className="stat-value">₹{partnerships.reduce((acc, curr) => acc + (curr.budget || curr.proposedBudget || 0), 0) / 10000000 || (stats.fundingReceived / 10000000).toFixed(1)}Cr</p>
+=======
+            {stats.fundingReceived > 0 ? (
+              <p className="stat-value">₹{(stats.fundingReceived / 10000000).toFixed(1)}Cr</p>
+            ) : (
+              <p className="stat-value">Pending disbursement</p>
+            )}
+>>>>>>> 9b69005d4586ec2f41ef9a5cbce4270d37a0a929
           </div>
         </div>
       </div>
@@ -237,12 +263,15 @@ export default function NgoDashboardPage() {
         >
           Available Projects
         </button>
+<<<<<<< HEAD
         <button
           className={`tab-btn ${activeTab === 'vault' ? 'active' : ''}`}
           onClick={() => setActiveTab('vault')}
         >
           Compliance Vault
         </button>
+=======
+>>>>>>> 9b69005d4586ec2f41ef9a5cbce4270d37a0a929
       </div>
 
       {/* Tab Content */}
@@ -303,6 +332,7 @@ export default function NgoDashboardPage() {
             {partnerships.length > 0 ? (
               <div className="partnerships-grid">
                 {partnerships.map(partnership => (
+<<<<<<< HEAD
                   <div key={partnership.id || partnership._id} className="partnership-card">
                     <div className="partnership-header">
                       <h4>{partnership.corporateName || partnership.corporate?.companyName || 'Corporate Partner'}</h4>
@@ -321,6 +351,27 @@ export default function NgoDashboardPage() {
                     </p>
                     <div className="partnership-actions">
                       <button className="btn-sm primary" onClick={() => openPartnershipDetails(partnership)}>View Details</button>
+=======
+                  <div key={partnership.id} className="partnership-card">
+                    <div className="partnership-header">
+                      <h4>{partnership.corporateName}</h4>
+                      <span className={`status ${partnership.status.toLowerCase()}`}>
+                        {partnership.status}
+                      </span>
+                    </div>
+                    <p className="partnership-project">
+                      <strong>Project:</strong> {partnership.projectTitle}
+                    </p>
+                    <p className="partnership-budget">
+                      <strong>Budget:</strong> ₹{(partnership.budget / 10000000).toFixed(1)}Cr
+                    </p>
+                    <p className="partnership-timeline">
+                      <strong>Timeline:</strong> {partnership.timeline}
+                    </p>
+                    <div className="partnership-actions">
+                      <button className="btn-sm primary">View Details</button>
+                      <button className="btn-sm secondary">Message</button>
+>>>>>>> 9b69005d4586ec2f41ef9a5cbce4270d37a0a929
                     </div>
                   </div>
                 ))}
@@ -416,31 +467,52 @@ export default function NgoDashboardPage() {
             <div className="impact-metrics">
               <div className="metric-card">
                 <h4>Total Beneficiaries</h4>
+<<<<<<< HEAD
                 <p className="metric-value">{(stats.peopleImpacted || 205000).toLocaleString()}</p>
+=======
+                <p className="metric-value">{stats.peopleImpacted.toLocaleString()}</p>
+>>>>>>> 9b69005d4586ec2f41ef9a5cbce4270d37a0a929
                 <p className="metric-desc">People positively impacted</p>
               </div>
               <div className="metric-card">
                 <h4>Active Projects</h4>
+<<<<<<< HEAD
                 <p className="metric-value">{partnerships.filter(p => p.approvalStatus === 'approved').length || stats.activeProjects}</p>
+=======
+                <p className="metric-value">{stats.activeProjects}</p>
+>>>>>>> 9b69005d4586ec2f41ef9a5cbce4270d37a0a929
                 <p className="metric-desc">Ongoing initiatives</p>
               </div>
               <div className="metric-card">
                 <h4>Total Funding</h4>
+<<<<<<< HEAD
                 <p className="metric-value">₹{partnerships.reduce((acc, curr) => acc + (curr.budget || curr.proposedBudget || 0), 0) / 10000000 || (stats.fundingReceived / 10000000).toFixed(1)}Cr</p>
+=======
+                <p className="metric-value">₹{(stats.fundingReceived / 10000000).toFixed(1)}Cr</p>
+>>>>>>> 9b69005d4586ec2f41ef9a5cbce4270d37a0a929
                 <p className="metric-desc">Total funds mobilized</p>
               </div>
               <div className="metric-card">
                 <h4>Corporate Partners</h4>
+<<<<<<< HEAD
                 <p className="metric-value">{partnerships.length || stats.totalPartners}</p>
                 <p className="metric-desc">Organizations collaborating</p>
               </div>
             </div>
             <Link to="/impact-tracking" className="btn-primary mt-2" style={{ display: 'inline-block', marginTop: '20px' }}>
+=======
+                <p className="metric-value">{stats.totalPartners}</p>
+                <p className="metric-desc">Organizations collaborating</p>
+              </div>
+            </div>
+            <Link to="/impact-tracking" className="btn-primary mt-2">
+>>>>>>> 9b69005d4586ec2f41ef9a5cbce4270d37a0a929
               Detailed Impact Tracking
             </Link>
           </div>
         )}
 
+<<<<<<< HEAD
         {activeTab === 'vault' && (
           <div className="impact-section">
             <h3>Compliance Document Vault</h3>
@@ -531,6 +603,10 @@ export default function NgoDashboardPage() {
           </div>
         </div>
       )}
+=======
+
+      </div>
+>>>>>>> 9b69005d4586ec2f41ef9a5cbce4270d37a0a929
     </div>
   );
 }

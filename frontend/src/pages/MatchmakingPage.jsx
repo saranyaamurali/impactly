@@ -208,10 +208,14 @@ export default function MatchmakingPage() {
 
                   <div className="match-content">
                     <div className="match-header">
+<<<<<<< HEAD
                       <h3>
                         {match.ngo.ngoName}
                         {match.ngo.verificationStatus === 'verified' && <span title="Verified NGO" style={{ marginLeft: '8px' }}>🛡️</span>}
                       </h3>
+=======
+                      <h3>{match.ngo.ngoName}</h3>
+>>>>>>> 9b69005d4586ec2f41ef9a5cbce4270d37a0a929
                       <span className="match-badge">
                         {match.score >= 80 ? 'Excellent' : match.score >= 60 ? 'Good' : 'Fair'} Match
                       </span>
@@ -264,10 +268,14 @@ export default function MatchmakingPage() {
           <div className="browse-grid">
             {ngos.map(ngo => (
               <div key={ngo.id} className="browse-card ngo-card">
+<<<<<<< HEAD
                 <h3>
                   {ngo.ngoName}
                   {ngo.verificationStatus === 'verified' && <span title="Verified NGO" style={{ marginLeft: '8px' }}>🛡️</span>}
                 </h3>
+=======
+                <h3>{ngo.ngoName}</h3>
+>>>>>>> 9b69005d4586ec2f41ef9a5cbce4270d37a0a929
                 <p className="mission">{ngo.mission}</p>
                 <div className="focus-areas">
                   {ngo.focusAreas && ngo.focusAreas.slice(0, 3).map(area => (

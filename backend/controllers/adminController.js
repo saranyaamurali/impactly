@@ -1,6 +1,9 @@
 const CSRProject = require("../models/CSRProject");
 const Partnership = require("../models/Partnership");
+<<<<<<< HEAD
 const NGO = require("../models/NGO");
+=======
+>>>>>>> 9b69005d4586ec2f41ef9a5cbce4270d37a0a929
 
 const getPendingProjects = async (req, res) => {
   try {
@@ -143,6 +146,7 @@ const rejectPartnership = async (req, res) => {
   }
 };
 
+<<<<<<< HEAD
 const getPendingNgos = async (req, res) => {
   try {
     const ngos = await NGO.find({ verificationStatus: "pending" })
@@ -187,6 +191,8 @@ const rejectNgo = async (req, res) => {
   }
 };
 
+=======
+>>>>>>> 9b69005d4586ec2f41ef9a5cbce4270d37a0a929
 module.exports = {
   getPendingProjects,
   approveProject,
@@ -194,7 +200,10 @@ module.exports = {
   getPendingPartnerships,
   approvePartnership,
   rejectPartnership,
+<<<<<<< HEAD
   getPendingNgos,
   verifyNgo,
   rejectNgo,
+=======
+>>>>>>> 9b69005d4586ec2f41ef9a5cbce4270d37a0a929
 };
