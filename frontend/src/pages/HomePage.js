@@ -1,239 +1,237 @@
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import { fetchPublicProjects, fetchBlogs } from '../services/api';
+import '../styles/HomePage.css';
 
-function HomePage() {
-  const legalAspects = [
-    {
-      title: "Applicability and CSR Threshold",
-      detail:
-        "Under Section 135 of the Companies Act, 2013, CSR obligations apply when a company crosses prescribed thresholds for net worth, turnover, or net profit in the relevant financial year.",
-    },
-    {
-      title: "Mandatory CSR Spend",
-      detail:
-        "Eligible companies are expected to spend at least 2% of the average net profits of the previous three financial years on approved CSR activities.",
-    },
-    {
-      title: "CSR Committee and Board Oversight",
-      detail:
-        "The Board and CSR Committee must approve policy, monitor implementation, and ensure disclosures are made in annual reports and statutory filings.",
-    },
-    {
-      title: "Permitted Activities (Schedule VII)",
-      detail:
-        "CSR expenditure must align with Schedule VII themes such as education, healthcare, environment, gender equality, livelihoods, and rural development.",
-    },
-    {
-      title: "Implementation Channels",
-      detail:
-        "Projects can be executed directly or through registered implementing agencies that satisfy CSR Rules, registration, and compliance requirements.",
-    },
-    {
-      title: "Disallowed CSR Expenditure",
-      detail:
-        "Activities in the normal course of business, political contributions, and one-off sponsorships primarily for marketing are generally excluded.",
-    },
-    {
-      title: "Ongoing Projects and Unspent Amounts",
-      detail:
-        "Unspent eligible CSR funds for ongoing projects must be transferred to a dedicated Unspent CSR Account within statutory timelines and used as prescribed.",
-    },
-    {
-      title: "Transfer to Specified Funds",
-      detail:
-        "Amounts not related to ongoing projects must be transferred to notified funds listed in Schedule VII within the required period.",
-    },
-    {
-      title: "Impact Assessment Requirements",
-      detail:
-        "Certain large CSR obligations trigger mandatory impact assessments by independent agencies for qualifying completed projects.",
-    },
-    {
-      title: "Disclosure, Audit, and Penalties",
-      detail:
-        "Boards must provide transparent CSR reporting; non-compliance can attract penalties under the Companies Act and related CSR Rules.",
-    },
-  ];
+export default function HomePage() {
+  const [projects, setProjects] = useState([]);
+  const [blogs, setBlogs] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  const knowledgeTopics = [
-    {
-      title: "Legal and Regulatory",
-      detail:
-        "Section 135, CSR Rules, Schedule VII, implementation norms, disclosures, and penalty framework.",
-    },
-    {
-      title: "Governance and Policy",
-      detail:
-        "CSR charter drafting, board governance, committee charters, internal controls, and anti-corruption safeguards.",
-    },
-    {
-      title: "Program Design",
-      detail:
-        "Need assessment, beneficiary mapping, theory of change, budget architecture, and execution roadmaps.",
-    },
-    {
-      title: "Implementation and Partners",
-      detail:
-        "Implementing agency qualification, contracting standards, milestone governance, and field monitoring practices.",
-    },
-    {
-      title: "Measurement and Impact",
-      detail:
-        "Outcome indicators, baseline and endline methods, impact studies, and independent evaluations.",
-    },
-    {
-      title: "Reporting and Communication",
-      detail:
-        "Board reports, annual disclosures, statutory narratives, assurance-ready evidence, and public transparency.",
-    },
-  ];
+  useEffect(() => {
+    const fetchHomepageData = async () => {
+      try {
+        setLoading(true);
+        const [projectsRes, blogsRes] = await Promise.all([
+          fetchPublicProjects({ limit: 3 }),
+          fetchBlogs({ limit: 3 })
+        ]);
+        setProjects(projectsRes.data?.data || []);
+        setBlogs(blogsRes.data?.data || []);
+      } catch (err) {
+        console.error("Error fetching homepage data:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchHomepageData();
+  }, []);
 
   return (
-    <section className="hero-wrap">
-      <div className="container">
-        <div className="hero-grid encyclopedia-hero-grid">
-          <div className="hero-encyclopedia-main">
-            <p className="eyebrow">CSR Knowledge Hub</p>
-            <h1 className="hero-title">
-              Complete CSR Guide: strategy, execution, legal compliance, and ecosystem intelligence.
-            </h1>
-            <p className="hero-subtitle">
-              This first page is designed as a single-source CSR knowledge center.
-              It covers legal obligations, governance structures, project design,
-              implementation methods, impact measurement, and statutory disclosure
-              practices.
+    <div className="home-container">
+      {/* HERO SECTION */}
+      <section className="home-hero">
+        <div className="hero-content">
+          <div className="hero-badge">Welcome to Impactly</div>
+          <h1 className="hero-title">
+            Amplify Your CSR with <span className="highlight">High-Impact</span> NGOs
+          </h1>
+          <p className="hero-subtitle">
+            The premium platform to discover, fund, and track CSR initiatives globally. 
+            Ensure legal compliance, find trusted partners, and measure your real-world impact with absolute clarity.
+          </p>
+          <div className="hero-actions">
+            <Link to="/corporate/register" className="btn btn-primary">
+              Launch CSR Projects
+            </Link>
+            <Link to="/ngo/register" className="btn btn-outline">
+              Register as NGO
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* OVERLAPPING FEATURES SECTION */}
+      <section className="home-features">
+        <div className="features-grid">
+          <div className="feature-card">
+            <div className="feature-icon-wrap">🤝</div>
+            <h3>Smart Matchmaking</h3>
+            <p>
+              Our AI-driven algorithm connects corporate CSR goals with the most relevant 
+              and verified NGO projects, ensuring perfect alignment of mission and resources.
             </p>
-            <div className="cta-row">
-              <Link className="btn btn-primary" to="/csr-projects">
-                Explore Current SCR Projects
-              </Link>
-              <Link className="btn btn-secondary" to="/csr-projects/information">
-                Explore 100+ CSR Information
-              </Link>
-              <Link className="btn btn-secondary" to="/ecosystem/ngos-information">
-                Explore 100+ NGO Information
-              </Link>
+          </div>
+          <div className="feature-card">
+            <div className="feature-icon-wrap">📊</div>
+            <h3>Impact Tracking</h3>
+            <p>
+              Monitor the progress of your funded initiatives in real-time. Receive automated 
+              reports, milestone updates, and measurable social impact metrics.
+            </p>
+          </div>
+          <div className="feature-card">
+            <div className="feature-icon-wrap">🛡️</div>
+            <h3>Compliance & Trust</h3>
+            <p>
+              All NGOs undergo rigorous vetting. We ensure your CSR spend aligns with 
+              legal requirements (like Schedule VII) and provide audit-ready transparency.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* HOW IT WORKS SECTION */}
+      <section className="home-how-it-works">
+        <div className="section-header">
+          <h2 className="section-title">How Impactly Works</h2>
+          <p className="section-desc">
+            A seamless, transparent journey from initial discovery to lasting global impact.
+          </p>
+        </div>
+        <div className="hiw-container">
+          <div className="hiw-step">
+            <div className="hiw-content">
+              <span className="step-number">01</span>
+              <h3>Discover & Connect</h3>
+              <p>
+                Browse through our curated marketplace of verified NGOs and high-impact projects. 
+                Filter by SDGs, regions, or causes that align perfectly with your corporate values. 
+                Initiate contact with a single click.
+              </p>
+            </div>
+            <div className="hiw-visual">
+              🔍
             </div>
           </div>
-
-          <aside className="ad-column" aria-label="Advertising section">
-            <article className="ad-slot-card ad-slot-primary">
-              <p className="summary-kicker">Ad Space 970 x 250</p>
-              <h3>Premium CSR Sponsorship Banner</h3>
+          <div className="hiw-step">
+            <div className="hiw-content">
+              <span className="step-number">02</span>
+              <h3>Fund & Execute</h3>
               <p>
-                Reserved for annual sustainability reports, ESG campaigns,
-                grant announcements, and verified impact partnerships.
+                Once you find the perfect match, securely route your CSR funds. Our platform 
+                handles the compliance documentation, ensuring every transaction meets 
+                regulatory standards seamlessly.
               </p>
-              <Link className="text-link" to="/blog">
-                See Sponsored CSR References
-              </Link>
-            </article>
-            <article className="ad-slot-card ad-slot-secondary">
-              <p className="summary-kicker">Ad Space 300 x 250</p>
-              <h3>Sidebar Promotion Block</h3>
+            </div>
+            <div className="hiw-visual">
+              💼
+            </div>
+          </div>
+          <div className="hiw-step">
+            <div className="hiw-content">
+              <span className="step-number">03</span>
+              <h3>Track Real Impact</h3>
               <p>
-                Slot for NGO collaboration drives, funder highlights, and
-                public impact communication placements.
+                Watch your contribution change lives. Receive regular field updates, photo 
+                evidence, and quantitative metrics directly from the NGO on the ground. 
+                Export reports for your annual CSR filings effortlessly.
               </p>
-            </article>
-          </aside>
-        </div>
-
-        <div className="encyclopedia-grid">
-          {knowledgeTopics.map((topic) => (
-            <article className="summary-tile" key={topic.title}>
-              <p className="summary-kicker">Knowledge Scope</p>
-              <h3>{topic.title}</h3>
-              <p>{topic.detail}</p>
-            </article>
-          ))}
-        </div>
-
-        <section className="legal-encyclopedia" aria-labelledby="legal-encyclopedia-title">
-          <div className="legal-heading">
-            <p className="eyebrow">Legal Compliance Core</p>
-            <h2 id="legal-encyclopedia-title">All core legal aspects involved in CSR</h2>
-            <p className="section-intro">
-              This section captures the principal statutory obligations typically
-              expected in CSR governance under Indian law and current compliance
-              practice. Always validate with updated legal counsel for your specific case.
-            </p>
+            </div>
+            <div className="hiw-visual">
+              📈
+            </div>
           </div>
+        </div>
+      </section>
 
-          <div className="legal-grid">
-            {legalAspects.map((item) => (
-              <article className="legal-card" key={item.title}>
-                <h3>{item.title}</h3>
-                <p>{item.detail}</p>
-              </article>
-            ))}
+      {/* FEATURED PROJECTS SECTION */}
+      <section className="home-listings" style={{ backgroundColor: '#fff' }}>
+        <div className="section-header">
+          <h2 className="section-title">Featured CSR Projects</h2>
+          <p className="section-desc">
+            Discover active, verified initiatives ready for your corporate backing.
+          </p>
+        </div>
+
+        {loading ? (
+          <div className="empty-state">Loading active projects...</div>
+        ) : projects.length > 0 ? (
+          <>
+            <div className="listings-grid">
+              {projects.slice(0, 3).map((project) => (
+                <div key={project._id} className="listing-card">
+                  <div className="listing-image-placeholder">
+                    🌱
+                  </div>
+                  <div className="listing-content">
+                    <span className="listing-tag">Active Initiative</span>
+                    <h3 className="listing-title">{project.title}</h3>
+                    <p className="listing-desc">{project.description}</p>
+                    <div className="listing-footer">
+                      <span>Budget: ₹{project.budget?.toLocaleString() || 'N/A'}</span>
+                      <Link to={`/project/${project._id}`} className="listing-link">View Details</Link>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+            <div className="view-all-wrapper">
+              <Link to="/public-projects" className="btn btn-secondary">Explore All Projects</Link>
+            </div>
+          </>
+        ) : (
+          <div className="empty-state">
+            <p>No public projects available at the moment.</p>
           </div>
-        </section>
+        )}
+      </section>
 
-        <div className="hub-grid">
-          <article className="summary-tile">
-            <p className="summary-kicker">Guided Navigation</p>
-            <h3>Detailed Project Discoverability</h3>
-            <p>
-              Browse sector-wise projects and map legal compliance context to
-              on-ground implementation patterns.
-            </p>
-            <Link className="text-link" to="/csr-projects">
-              Open CSR Project Explorer
-            </Link>
-          </article>
-          <article className="summary-tile">
-            <p className="summary-kicker">Guided Navigation</p>
-            <h3>CSR Knowledge Library</h3>
-            <p>
-              Review broad CSR concepts, frameworks, and operational templates
-              for planning and documentation.
-            </p>
-            <Link className="text-link" to="/csr-projects/information">
-              Open CSR Knowledge Library
-            </Link>
-          </article>
-          <article className="summary-tile">
-            <p className="summary-kicker">Guided Navigation</p>
-            <h3>NGO Intelligence Directory</h3>
-            <p>
-              Discover NGO landscape information to support partner due diligence
-              and collaboration design.
-            </p>
-            <Link className="text-link" to="/ecosystem/ngos-information">
-              Open NGO Intelligence Directory
-            </Link>
-          </article>
+      {/* RECENT BLOGS SECTION */}
+      <section className="home-listings" style={{ backgroundColor: '#f8fafc' }}>
+        <div className="section-header">
+          <h2 className="section-title">Insights & Resources</h2>
+          <p className="section-desc">
+            Stay ahead with the latest trends in CSR frameworks and social impact stories.
+          </p>
         </div>
 
-        <div className="hub-grid">
-          <article className="ad-strip ad-strip-inline">
-            <p className="eyebrow">Ad Space 728 x 90</p>
-            <h3>Leaderboard Ad Placement</h3>
-            <p>
-              Placement optimized for public awareness campaigns, annual report
-              launches, impact storytelling, and ecosystem announcements.
-            </p>
-          </article>
-          <article className="ad-strip ad-strip-inline">
-            <p className="eyebrow">Ad Space 320 x 100</p>
-            <h3>Mobile Sticky Sponsorship</h3>
-            <p>
-              Mobile-focused ad inventory for quick campaign visibility across
-              CSR and NGO information journeys.
-            </p>
-          </article>
-          <article className="ad-strip ad-strip-inline">
-            <p className="eyebrow">Ad Space</p>
-            <h3>Partnership Inquiry Slot</h3>
-            <p>
-              For sponsors looking to place educational, ecosystem, and policy-aware
-              awareness campaigns on this CSR hub.
-            </p>
-          </article>
+        {loading ? (
+          <div className="empty-state">Loading latest insights...</div>
+        ) : blogs.length > 0 ? (
+          <>
+            <div className="listings-grid">
+              {blogs.slice(0, 3).map((blog) => (
+                <div key={blog._id} className="listing-card">
+                  <div className="listing-image-placeholder" style={{ background: 'linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%)' }}>
+                    📰
+                  </div>
+                  <div className="listing-content">
+                    <span className="listing-tag corporate">Knowledge Base</span>
+                    <h3 className="listing-title">{blog.title}</h3>
+                    <p className="listing-desc">{blog.summary || blog.content?.substring(0, 100) + '...'}</p>
+                    <div className="listing-footer">
+                      <span>{new Date(blog.createdAt || Date.now()).toLocaleDateString()}</span>
+                      <Link to={`/blog/${blog._id}`} className="listing-link">Read Article</Link>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+            <div className="view-all-wrapper">
+              <Link to="/blogs" className="btn btn-secondary">View All Articles</Link>
+            </div>
+          </>
+        ) : (
+          <div className="empty-state">
+            <p>No insights published yet.</p>
+          </div>
+        )}
+      </section>
+
+      {/* BOTTOM CTA */}
+      <section className="home-cta">
+        <div className="section-header" style={{ marginBottom: 0 }}>
+          <h2 className="section-title">Ready to amplify your impact?</h2>
+          <p className="section-desc">
+            Join the ecosystem of forward-thinking corporations and dedicated non-profits.
+          </p>
+          <div className="cta-buttons">
+            <Link to="/corporate/register" className="btn btn-white">Join as Corporate</Link>
+            <Link to="/ngo/register" className="btn btn-outline-white">Join as NGO</Link>
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </div>
   );
 }
-
-export default HomePage;

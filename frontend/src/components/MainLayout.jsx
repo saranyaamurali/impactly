@@ -128,13 +128,6 @@ const MainLayout = ({ children, isLoggedIn, userRole, onLogout }) => {
                   >
                     Corporate Login
                   </Link>
-                  <Link 
-                    to="/ngo/register" 
-                    className="nav-link nav-button"
-                    onClick={() => setMobileMenuOpen(false)}
-                  >
-                    Register
-                  </Link>
                 </>
               ) : (
                 <>

@@ -8,12 +8,12 @@ const getJwtSecret = () => process.env.JWT_SECRET || "impactly-dev-secret";
 const buildAuthResponse = ({ user, corporate }) => {
   const token = jwt.sign(
     {
+      userId: user._id.toString(),
       role: user.role,
       corporateId: corporate._id.toString(),
     },
     getJwtSecret(),
     {
-      subject: user._id.toString(),
       expiresIn: "7d",
     }
   );
@@ -53,11 +53,11 @@ const registerCorporate = async (req, res) => {
       return res.status(409).json({ message: "Email already registered" });
     }
 
-    const passwordHash = await bcrypt.hash(password, 10);
+    const hashedPassword = await bcrypt.hash(password, 10);
 
     const user = await User.create({
       email: email.toLowerCase().trim(),
-      passwordHash,
+      password: hashedPassword,
       role: "corporate",
     });
 
@@ -90,7 +90,7 @@ const loginCorporate = async (req, res) => {
       return res.status(401).json({ message: "Invalid credentials" });
     }
 
-    const validPassword = await bcrypt.compare(password, user.passwordHash);
+    const validPassword = await bcrypt.compare(password, user.password);
     if (!validPassword) {
       return res.status(401).json({ message: "Invalid credentials" });
     }

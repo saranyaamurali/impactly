@@ -1,103 +1,201 @@
-import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { registerCorporate, setAuthToken } from "../services/api";
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { registerCorporate, setAuthToken } from '../services/api';
+import '../styles/AuthPages.css';
 
-function CorporateRegisterPage() {
+export default function CorporateRegisterPage() {
   const navigate = useNavigate();
-  const [form, setForm] = useState({
-    email: "",
-    password: "",
-    companyName: "",
-    industry: "",
-    website: "",
-    headquarters: "",
-    profile: "",
+  const [formData, setFormData] = useState({
+    companyName: '',
+    email: '',
+    password: '',
+    confirmPassword: '',
+    industry: '',
+    website: '',
+    headquarters: '',
+    profile: '',
   });
-  const [submitting, setSubmitting] = useState(false);
-  const [error, setError] = useState("");
+  
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
-  const handleChange = (event) => {
-    const { name, value } = event.target;
-    setForm((prev) => ({ ...prev, [name]: value }));
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError('');
+    setLoading(true);
+
+    if (formData.password !== formData.confirmPassword) {
+      setError('Passwords do not match');
+      setLoading(false);
+      return;
+    }
+
     try {
-      setSubmitting(true);
-      setError("");
-      const response = await registerCorporate(form);
-      setAuthToken(response.token);
-      navigate("/corporate/dashboard");
-    } catch (requestError) {
-      setError(requestError?.response?.data?.message || "Unable to register.");
+      const response = await registerCorporate({
+        companyName: formData.companyName,
+        email: formData.email,
+        password: formData.password,
+        industry: formData.industry,
+        website: formData.website,
+        headquarters: formData.headquarters,
+        profile: formData.profile,
+      });
+
+      setAuthToken(response.data.token);
+      localStorage.setItem('userRole', 'corporate');
+      window.location.href = '/corporate/dashboard';
+    } catch (err) {
+      setError(err.response?.data?.message || 'Registration failed. Please try again.');
     } finally {
-      setSubmitting(false);
+      setLoading(false);
     }
   };
 
   return (
-    <section className="section-wrap">
-      <div className="container auth-wrap">
-        <p className="eyebrow">Corporate Onboarding</p>
-        <h1>Create corporate account</h1>
-        <p className="section-intro">
-          Register your company profile to submit and manage CSR initiatives.
-        </p>
+    <div className="auth-container corporate-register">
+      <div className="auth-card register-card">
+        <div className="auth-header corporate-header">
+          <div className="auth-logo">🏢</div>
+          <h1>Join as a Corporate</h1>
+          <p className="auth-subtitle">Register your company to launch CSR initiatives</p>
+        </div>
 
-        <form className="auth-card" onSubmit={handleSubmit}>
-          <div className="auth-grid">
-            <label>
-              Company Name
-              <input name="companyName" value={form.companyName} onChange={handleChange} required />
-            </label>
-            <label>
-              Email
-              <input name="email" type="email" value={form.email} onChange={handleChange} required />
-            </label>
-            <label>
-              Password
+        <form onSubmit={handleSubmit} className="auth-form">
+          {error && <div className="error-banner">{error}</div>}
+
+          <div className="form-row">
+            <div className="form-group">
+              <label htmlFor="companyName">Company Name *</label>
               <input
-                name="password"
-                type="password"
-                value={form.password}
+                id="companyName"
+                name="companyName"
+                type="text"
+                value={formData.companyName}
                 onChange={handleChange}
-                minLength={8}
+                placeholder="e.g., Tech Innovations Inc."
                 required
               />
-            </label>
-            <label>
-              Industry
-              <input name="industry" value={form.industry} onChange={handleChange} />
-            </label>
-            <label>
-              Website
-              <input name="website" value={form.website} onChange={handleChange} />
-            </label>
-            <label>
-              Headquarters
-              <input name="headquarters" value={form.headquarters} onChange={handleChange} />
-            </label>
+            </div>
+            <div className="form-group">
+              <label htmlFor="industry">Industry</label>
+              <input
+                id="industry"
+                name="industry"
+                type="text"
+                value={formData.industry}
+                onChange={handleChange}
+                placeholder="e.g., Technology, Finance"
+              />
+            </div>
           </div>
-          <label>
-            Company Profile
-            <textarea name="profile" value={form.profile} onChange={handleChange} rows={4} />
-          </label>
 
-          {error && <p className="error-text">{error}</p>}
+          <div className="form-row">
+            <div className="form-group">
+              <label htmlFor="email">Email Address *</label>
+              <input
+                id="email"
+                name="email"
+                type="email"
+                value={formData.email}
+                onChange={handleChange}
+                placeholder="corporate@example.com"
+                required
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="headquarters">Headquarters</label>
+              <input
+                id="headquarters"
+                name="headquarters"
+                type="text"
+                value={formData.headquarters}
+                onChange={handleChange}
+                placeholder="City, Country"
+              />
+            </div>
+          </div>
 
-          <div className="cta-row">
-            <button className="btn btn-primary" type="submit" disabled={submitting}>
-              {submitting ? "Creating account..." : "Register Corporate"}
-            </button>
-            <Link className="btn btn-secondary" to="/corporate/login">
-              Already registered? Login
-            </Link>
+          <div className="form-group">
+            <label htmlFor="website">Website URL</label>
+            <input
+              id="website"
+              name="website"
+              type="url"
+              value={formData.website}
+              onChange={handleChange}
+              placeholder="https://yourcompany.com"
+            />
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="profile">Company Profile</label>
+            <textarea
+              id="profile"
+              name="profile"
+              value={formData.profile}
+              onChange={handleChange}
+              placeholder="Briefly describe your company and its CSR goals"
+              rows="3"
+            />
+          </div>
+
+          <div className="form-row">
+            <div className="form-group">
+              <label htmlFor="password">Password *</label>
+              <div className="password-input-wrapper">
+                <input
+                  id="password"
+                  name="password"
+                  type={showPassword ? 'text' : 'password'}
+                  value={formData.password}
+                  onChange={handleChange}
+                  placeholder="Minimum 8 characters"
+                  required
+                  minLength="8"
+                />
+                <button
+                  type="button"
+                  className="toggle-password"
+                  onClick={() => setShowPassword(!showPassword)}
+                >
+                  {showPassword ? '👁️' : '👁️‍🗨️'}
+                </button>
+              </div>
+            </div>
+            <div className="form-group">
+              <label htmlFor="confirmPassword">Confirm Password *</label>
+              <input
+                id="confirmPassword"
+                name="confirmPassword"
+                type="password"
+                value={formData.confirmPassword}
+                onChange={handleChange}
+                placeholder="Re-enter password"
+                required
+              />
+            </div>
+          </div>
+
+          <button
+            type="submit"
+            disabled={loading}
+            className="auth-button register-button"
+          >
+            {loading ? 'Creating Account...' : 'Register as Corporate'}
+          </button>
+
+          <div className="auth-footer">
+            <p>Already registered? <Link to="/corporate/login">Login here</Link></p>
+            <p>Or <Link to="/ngo/register">Register as an NGO</Link></p>
           </div>
         </form>
       </div>
-    </section>
+    </div>
   );
 }
-
-export default CorporateRegisterPage;

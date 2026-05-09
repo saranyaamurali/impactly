@@ -79,7 +79,7 @@ export default function NgoRegisterPage() {
 
       localStorage.setItem('impactly_token', response.data.token);
       localStorage.setItem('userRole', 'ngo');
-      navigate('/ngo/dashboard');
+      window.location.href = '/ngo/dashboard';
     } catch (err) {
       setError(err.response?.data?.message || 'Registration failed. Please try again.');
     } finally {

@@ -29,7 +29,7 @@ export default function NgoLoginPage() {
       
       localStorage.setItem('impactly_token', response.data.token);
       localStorage.setItem('userRole', 'ngo');
-      navigate('/ngo/dashboard');
+      window.location.href = '/ngo/dashboard';
     } catch (err) {
       setError(err.response?.data?.message || 'Login failed. Please check your credentials.');
     } finally {
@@ -104,17 +104,6 @@ export default function NgoLoginPage() {
             {loading ? 'Signing in...' : 'Sign In'}
           </button>
 
-          <div className="auth-divider">or</div>
-
-          <div className="social-login">
-            <button type="button" className="social-button google">
-              <span>Google</span>
-            </button>
-            <button type="button" className="social-button linkedin">
-              <span>LinkedIn</span>
-            </button>
-          </div>
-
           <div className="auth-footer">
             <p>Don't have an account? <Link to="/ngo/register">Register here</Link></p>
             <p>Looking to log in as a Corporate? <Link to="/corporate/login">Click here</Link></p>
@@ -122,20 +111,6 @@ export default function NgoLoginPage() {
         </form>
       </div>
 
-      <div className="auth-info ngo-info">
-        <div className="info-card">
-          <h3>🤝 Connect & Collaborate</h3>
-          <p>Find corporate partners for your CSR initiatives</p>
-        </div>
-        <div className="info-card">
-          <h3>📊 Track Impact</h3>
-          <p>Monitor project outcomes and social impact metrics</p>
-        </div>
-        <div className="info-card">
-          <h3>💰 Access Funding</h3>
-          <p>Discover funding opportunities from corporations</p>
-        </div>
-      </div>
     </div>
   );
 }

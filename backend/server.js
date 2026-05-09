@@ -26,6 +26,8 @@ db();
 // Routes
 const authRoutes = require('./routes/authRoutes');
 const ngoAuthRoutes = require('./routes/ngoAuthRoutes');
+const corporateAuthRoutes = require('./routes/corporateAuthRoutes');
+
 const ngoRoutes = require('./routes/ngoRoutes');
 const csrProjectRoutes = require('./routes/csrProjectRoutes');
 const corporateRoutes = require('./routes/corporateRoutes');
@@ -33,9 +35,13 @@ const blogRoutes = require('./routes/blogRoutes');
 const ecosystemRoutes = require('./routes/ecosystemRoutes');
 const matchmakingRoutes = require('./routes/matchmakingRoutes');
 
+
 // Mount routes
 app.use('/api/auth', authRoutes);
 app.use('/api/auth', ngoAuthRoutes);
+
+app.use('/api/corporate-auth', corporateAuthRoutes);
+
 app.use('/api/ngo', ngoRoutes);
 app.use('/api/csr-project', csrProjectRoutes);
 app.use('/api/corporate', corporateRoutes);
