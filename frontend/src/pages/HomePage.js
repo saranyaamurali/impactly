@@ -106,9 +106,6 @@ function HomePage() {
               <Link className="btn btn-primary" to="/csr-projects">
                 Explore Current SCR Projects
               </Link>
-              <Link className="btn btn-secondary" to="/csr-projects/information">
-                Explore 100+ CSR Information
-              </Link>
               <Link className="btn btn-secondary" to="/ecosystem/ngos-information">
                 Explore 100+ NGO Information
               </Link>
@@ -188,8 +185,8 @@ function HomePage() {
               Review broad CSR concepts, frameworks, and operational templates
               for planning and documentation.
             </p>
-            <Link className="text-link" to="/csr-projects/information">
-              Open CSR Knowledge Library
+              <Link className="text-link" to="/csr-projects">
+                Open CSR Project Explorer
             </Link>
           </article>
           <article className="summary-tile">

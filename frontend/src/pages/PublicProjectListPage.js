@@ -100,8 +100,8 @@ function PublicProjectListPage() {
             Paid placement zone for sustainability campaigns, annual reports, and
             impact announcements.
           </p>
-          <Link className="btn btn-secondary" to="/csr-projects/information">
-            Open 100+ CSR Information View
+            <Link className="btn btn-secondary" to="/csr-projects">
+              Open CSR Project Explorer
           </Link>
         </div>
 

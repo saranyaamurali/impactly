@@ -13,10 +13,7 @@ function MainLayout() {
           </NavLink>
           <nav className="site-nav" aria-label="Main navigation">
             <NavLink to="/csr-projects" className={navClass}>
-              Current SCR Projects
-            </NavLink>
-            <NavLink to="/csr-projects/information" className={navClass}>
-              100+ CSR Info
+                Current CSR Projects
             </NavLink>
             <NavLink to="/blog" className={navClass}>
               CSR Blogs
@@ -33,14 +30,8 @@ function MainLayout() {
             <NavLink to="/ecosystem/ngos-information" className={navClass}>
               100+ NGO Info
             </NavLink>
-            <NavLink to="/corporate/register" className={navClass}>
-              Corporate Register
-            </NavLink>
-            <NavLink to="/corporate/login" className={navClass}>
-              Corporate Login
-            </NavLink>
-            <NavLink to="/corporate/dashboard" className={navClass}>
-              Corporate Dashboard
+              <NavLink to="/corporate" className={navClass}>
+                Corporate Portal
             </NavLink>
           </nav>
         </div>
