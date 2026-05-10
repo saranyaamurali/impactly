@@ -28,7 +28,6 @@ export default function ImpactTrackingPage() {
   const fetchProjects = async () => {
     try {
       setLoading(true);
-<<<<<<< HEAD
       const userRole = localStorage.getItem('userRole');
       
       if (userRole === 'ngo') {
@@ -57,12 +56,7 @@ export default function ImpactTrackingPage() {
         if (items.length > 0) {
           setSelectedProject(items[0]);
         }
-=======
-      const response = await api.get('/csr-project/my-projects');
-      setProjects(response.data.projects || []);
-      if (response.data.projects && response.data.projects.length > 0) {
-        setSelectedProject(response.data.projects[0]);
->>>>>>> 9b69005d4586ec2f41ef9a5cbce4270d37a0a929
+
       }
     } catch (error) {
       console.error('Failed to fetch projects:', error);

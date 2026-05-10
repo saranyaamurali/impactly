@@ -57,7 +57,6 @@ const ngoController = {
     }
   },
 
-<<<<<<< HEAD
   // Upload Compliance Documents
   uploadDocuments: async (req, res) => {
     try {
@@ -94,8 +93,6 @@ const ngoController = {
     }
   },
 
-=======
->>>>>>> 9b69005d4586ec2f41ef9a5cbce4270d37a0a929
   // Get NGO Statistics
   getNgoStats: async (req, res) => {
     try {

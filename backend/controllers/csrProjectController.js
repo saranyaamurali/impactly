@@ -4,10 +4,7 @@ const {
 } = require("../services/dataStore");
 const Corporate = require("../models/Corporate");
 const CSRProject = require("../models/CSRProject");
-<<<<<<< HEAD
 const ImpactUpdate = require("../models/ImpactUpdate");
-=======
->>>>>>> 9b69005d4586ec2f41ef9a5cbce4270d37a0a929
 
 const parseList = (value) => {
   if (!value) {
@@ -216,7 +213,6 @@ const getCsrInformationProjects = (req, res) => {
   return res.status(200).json(data);
 };
 
-<<<<<<< HEAD
 const getImpactUpdates = async (req, res) => {
   try {
     const { id } = req.params;
@@ -247,18 +243,12 @@ const addImpactUpdate = async (req, res) => {
     return res.status(500).json({ message: "Unable to add impact update" });
   }
 };
-
-=======
->>>>>>> 9b69005d4586ec2f41ef9a5cbce4270d37a0a929
 module.exports = {
   createCsrProject,
   getMyProjects,
   getPublicProjects,
   getPublicProjectById,
   getCsrInformationProjects,
-<<<<<<< HEAD
   getImpactUpdates,
   addImpactUpdate,
-=======
->>>>>>> 9b69005d4586ec2f41ef9a5cbce4270d37a0a929
 };
