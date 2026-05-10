@@ -27,11 +27,6 @@ export default function NgoDashboardPage() {
   const [uploadMessage, setUploadMessage] = useState('');
   const [selectedPartnership, setSelectedPartnership] = useState(null);
 
-  useEffect(() => {
-    fetchNgoData();
-    fetchApprovedProjects();
-  }, [fetchNgoData, fetchApprovedProjects]);
-
   const fetchNgoData = useCallback(async () => {
     try {
       setLoading(true);
@@ -58,6 +53,20 @@ export default function NgoDashboardPage() {
     }
   }, [navigate]);
 
+  const fetchApprovedProjects = useCallback(async () => {
+    try {
+      const response = await csrProjectAPI.getPublicProjects({ limit: 50 });
+      setAvailableProjects(response.data.items || []);
+    } catch (error) {
+      console.error('Failed to fetch approved projects:', error);
+    }
+  }, []);
+
+  useEffect(() => {
+    fetchNgoData();
+    fetchApprovedProjects();
+  }, [fetchNgoData, fetchApprovedProjects]);
+
   const fetchStats = async (ngoId) => {
     try {
       const response = await api.get(`/ngo/${ngoId}/stats`);
@@ -76,14 +85,6 @@ export default function NgoDashboardPage() {
     }
   };
 
-  const fetchApprovedProjects = useCallback(async () => {
-    try {
-      const response = await csrProjectAPI.getPublicProjects({ limit: 50 });
-      setAvailableProjects(response.data.items || []);
-    } catch (error) {
-      console.error('Failed to fetch approved projects:', error);
-    }
-  }, []);
 
   const handleProposalChange = (event) => {
     const { name, value } = event.target;
