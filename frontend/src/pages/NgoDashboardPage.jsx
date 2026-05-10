@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import api, { csrProjectAPI, ngoAPI } from '../services/api';
 import '../styles/NgoDashboard.css';
@@ -30,9 +30,9 @@ export default function NgoDashboardPage() {
   useEffect(() => {
     fetchNgoData();
     fetchApprovedProjects();
-  }, []);
+  }, [fetchNgoData, fetchApprovedProjects]);
 
-  const fetchNgoData = async () => {
+  const fetchNgoData = useCallback(async () => {
     try {
       setLoading(true);
       const token = localStorage.getItem('impactly_token');
@@ -56,7 +56,7 @@ export default function NgoDashboardPage() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [navigate]);
 
   const fetchStats = async (ngoId) => {
     try {
@@ -76,14 +76,14 @@ export default function NgoDashboardPage() {
     }
   };
 
-  const fetchApprovedProjects = async () => {
+  const fetchApprovedProjects = useCallback(async () => {
     try {
       const response = await csrProjectAPI.getPublicProjects({ limit: 50 });
       setAvailableProjects(response.data.items || []);
     } catch (error) {
       console.error('Failed to fetch approved projects:', error);
     }
-  };
+  }, []);
 
   const handleProposalChange = (event) => {
     const { name, value } = event.target;

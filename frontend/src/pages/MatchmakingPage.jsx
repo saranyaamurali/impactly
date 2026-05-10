@@ -1,14 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect, useCallback } from 'react';
 import api from '../services/api';
 import '../styles/Matchmaking.css';
 
 export default function MatchmakingPage() {
-  const navigate = useNavigate();
   const [ngos, setNgos] = useState([]);
   const [projects, setProjects] = useState([]);
   const [matches, setMatches] = useState([]);
-  const [selectedNgo, setSelectedNgo] = useState(null);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState('matches');
   const [filters, setFilters] = useState({
@@ -17,11 +14,7 @@ export default function MatchmakingPage() {
     budget: 'all',
   });
 
-  useEffect(() => {
-    fetchData();
-  }, []);
-
-  const fetchData = async () => {
+  const fetchData = useCallback(async () => {
     try {
       setLoading(true);
       const [ngosRes, projectsRes] = await Promise.all([
@@ -40,7 +33,11 @@ export default function MatchmakingPage() {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
+
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
 
   const calculateMatches = (ngoList, projectList) => {
     const matchList = [];
