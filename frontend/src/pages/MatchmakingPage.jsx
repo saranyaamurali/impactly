@@ -14,53 +14,6 @@ export default function MatchmakingPage() {
     budget: 'all',
   });
 
-  const calculateMatches = useCallback((ngoList, projectList) => {
-    const matchList = [];
-
-    ngoList.forEach(ngo => {
-      projectList.forEach(project => {
-        const alignmentScore = calculateAlignment(ngo, project);
-        if (alignmentScore >= 50) {
-          matchList.push({
-            id: `${ngo.id}-${project.id}`,
-            ngo,
-            project,
-            score: alignmentScore,
-            matchReasons: getMatchReasons(ngo, project),
-          });
-        }
-      });
-    });
-
-    matchList.sort((a, b) => b.score - a.score);
-    setMatches(matchList);
-  }, []);
-
-  const fetchData = useCallback(async () => {
-    try {
-      setLoading(true);
-      const [ngosRes, projectsRes] = await Promise.all([
-        api.get('/ecosystem/ngos'),
-        api.get('/csr-project/public'),
-      ]);
-
-      const ngoItems = ngosRes.data.ngos || [];
-      const projectItems = projectsRes.data.items || [];
-
-      setNgos(ngoItems);
-      setProjects(projectItems);
-      calculateMatches(ngoItems, projectItems);
-    } catch (error) {
-      console.error('Failed to fetch data:', error);
-    } finally {
-      setLoading(false);
-    }
-  }, [calculateMatches]);
-
-  useEffect(() => {
-    fetchData();
-  }, [fetchData]);
-
   const calculateAlignment = (ngo, project) => {
     let score = 0;
 
@@ -114,6 +67,53 @@ export default function MatchmakingPage() {
 
     return reasons;
   };
+
+  const calculateMatches = useCallback((ngoList, projectList) => {
+    const matchList = [];
+
+    ngoList.forEach(ngo => {
+      projectList.forEach(project => {
+        const alignmentScore = calculateAlignment(ngo, project);
+        if (alignmentScore >= 50) {
+          matchList.push({
+            id: `${ngo.id}-${project.id}`,
+            ngo,
+            project,
+            score: alignmentScore,
+            matchReasons: getMatchReasons(ngo, project),
+          });
+        }
+      });
+    });
+
+    matchList.sort((a, b) => b.score - a.score);
+    setMatches(matchList);
+  }, []);
+
+  const fetchData = useCallback(async () => {
+    try {
+      setLoading(true);
+      const [ngosRes, projectsRes] = await Promise.all([
+        api.get('/ecosystem/ngos'),
+        api.get('/csr-project/public'),
+      ]);
+
+      const ngoItems = ngosRes.data.ngos || [];
+      const projectItems = projectsRes.data.items || [];
+
+      setNgos(ngoItems);
+      setProjects(projectItems);
+      calculateMatches(ngoItems, projectItems);
+    } catch (error) {
+      console.error('Failed to fetch data:', error);
+    } finally {
+      setLoading(false);
+    }
+  }, [calculateMatches]);
+
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
 
   const getMatchColor = (score) => {
     if (score >= 80) return '#10b981';

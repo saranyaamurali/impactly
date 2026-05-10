@@ -27,6 +27,24 @@ export default function NgoDashboardPage() {
   const [uploadMessage, setUploadMessage] = useState('');
   const [selectedPartnership, setSelectedPartnership] = useState(null);
 
+  const fetchStats = useCallback(async (ngoId) => {
+    try {
+      const response = await api.get(`/ngo/${ngoId}/stats`);
+      setStats(response.data.stats);
+    } catch (error) {
+      console.error('Failed to fetch stats:', error);
+    }
+  }, []);
+
+  const fetchPartnerships = useCallback(async (ngoId) => {
+    try {
+      const response = await api.get(`/ngo/${ngoId}/partnerships`);
+      setPartnerships(response.data.partnerships || []);
+    } catch (error) {
+      console.error('Failed to fetch partnerships:', error);
+    }
+  }, []);
+
   const fetchNgoData = useCallback(async () => {
     try {
       setLoading(true);
@@ -51,7 +69,7 @@ export default function NgoDashboardPage() {
     } finally {
       setLoading(false);
     }
-  }, [navigate]);
+  }, [navigate, fetchStats, fetchPartnerships]);
 
   const fetchApprovedProjects = useCallback(async () => {
     try {
@@ -66,24 +84,6 @@ export default function NgoDashboardPage() {
     fetchNgoData();
     fetchApprovedProjects();
   }, [fetchNgoData, fetchApprovedProjects]);
-
-  const fetchStats = async (ngoId) => {
-    try {
-      const response = await api.get(`/ngo/${ngoId}/stats`);
-      setStats(response.data.stats);
-    } catch (error) {
-      console.error('Failed to fetch stats:', error);
-    }
-  };
-
-  const fetchPartnerships = async (ngoId) => {
-    try {
-      const response = await api.get(`/ngo/${ngoId}/partnerships`);
-      setPartnerships(response.data.partnerships || []);
-    } catch (error) {
-      console.error('Failed to fetch partnerships:', error);
-    }
-  };
 
 
   const handleProposalChange = (event) => {
