@@ -112,6 +112,7 @@ export const csrArticleAPI = {
   createArticle: (data) => api.post('/csr/articles', data),
   updateArticle: (articleId, data) => api.put(`/csr/articles/${articleId}`, data),
   deleteArticle: (articleId) => api.delete(`/csr/articles/${articleId}`),
+  trackArticleClick: (articleId) => api.post(`/csr/articles/${articleId}/click`),
 };
 
 // CSR Project APIs

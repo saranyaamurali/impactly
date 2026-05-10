@@ -1,9 +1,8 @@
-// Add this to fetch from backend instead of hardcoded data
-
 import { useEffect, useState } from "react";
+import { csrArticleAPI } from "../services/api";
 import "./CsrInformation.css";
 
-const CATEGORIES = ["All", "CSR Basics", "Legal Compliance", /* ... */];
+const CATEGORIES = ["All", "CSR Basics", "Legal Compliance", "Best Practices", "Impact Measurement", "Environment & Sustainability"];
 
 function CsrInformationPage() {
   const [articles, setArticles] = useState([]);
@@ -16,21 +15,18 @@ function CsrInformationPage() {
     const fetchArticles = async () => {
       try {
         setLoading(true);
-        const params = new URLSearchParams();
+        const params = {};
 
         if (selectedCategory !== "All") {
-          params.append("category", selectedCategory);
+          params.category = selectedCategory;
         }
 
         if (searchTerm.trim()) {
-          params.append("search", searchTerm.trim());
+          params.search = searchTerm.trim();
         }
 
-        const response = await fetch(
-          `/api/csr/articles?${params.toString()}`
-        );
-        const data = await response.json();
-        setArticles(data.items || []);
+        const response = await csrArticleAPI.getArticles(params);
+        setArticles(response.data.items || []);
       } catch (error) {
         console.error("Error fetching articles:", error);
         setArticles([]);
@@ -45,9 +41,7 @@ function CsrInformationPage() {
   // Track clicks when opening article
   const handleArticleClick = async (articleId) => {
     try {
-      await fetch(`/api/csr/articles/${articleId}/click`, {
-        method: "POST",
-      });
+      await csrArticleAPI.trackArticleClick(articleId);
     } catch (error) {
       console.error("Error tracking click:", error);
     }
