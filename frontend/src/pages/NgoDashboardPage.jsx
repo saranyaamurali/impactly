@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import api, { csrProjectAPI, ngoAPI } from '../services/api';
 import '../styles/NgoDashboard.css';
@@ -27,13 +27,34 @@ export default function NgoDashboardPage() {
   const [uploadMessage, setUploadMessage] = useState('');
   const [selectedPartnership, setSelectedPartnership] = useState(null);
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  useEffect(() => {
-    fetchNgoData();
-    fetchApprovedProjects();
+  const fetchStats = useCallback(async (ngoId) => {
+    try {
+      const response = await api.get(`/ngo/${ngoId}/stats`);
+      setStats(response.data.stats);
+    } catch (error) {
+      console.error('Failed to fetch stats:', error);
+    }
   }, []);
 
-  const fetchNgoData = async () => {
+  const fetchPartnerships = useCallback(async (ngoId) => {
+    try {
+      const response = await api.get(`/ngo/${ngoId}/partnerships`);
+      setPartnerships(response.data.partnerships || []);
+    } catch (error) {
+      console.error('Failed to fetch partnerships:', error);
+    }
+  }, []);
+
+  const fetchApprovedProjects = useCallback(async () => {
+    try {
+      const response = await csrProjectAPI.getPublicProjects({ limit: 50 });
+      setAvailableProjects(response.data.items || []);
+    } catch (error) {
+      console.error('Failed to fetch approved projects:', error);
+    }
+  }, []);
+
+  const fetchNgoData = useCallback(async () => {
     try {
       setLoading(true);
       const token = localStorage.getItem('impactly_token');
@@ -57,34 +78,14 @@ export default function NgoDashboardPage() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [navigate, fetchStats, fetchPartnerships]);
 
-  const fetchStats = async (ngoId) => {
-    try {
-      const response = await api.get(`/ngo/${ngoId}/stats`);
-      setStats(response.data.stats);
-    } catch (error) {
-      console.error('Failed to fetch stats:', error);
-    }
-  };
+  useEffect(() => {
+    fetchNgoData();
+    fetchApprovedProjects();
+  }, [fetchNgoData, fetchApprovedProjects]);
 
-  const fetchPartnerships = async (ngoId) => {
-    try {
-      const response = await api.get(`/ngo/${ngoId}/partnerships`);
-      setPartnerships(response.data.partnerships || []);
-    } catch (error) {
-      console.error('Failed to fetch partnerships:', error);
-    }
-  };
 
-  const fetchApprovedProjects = async () => {
-    try {
-      const response = await csrProjectAPI.getPublicProjects({ limit: 50 });
-      setAvailableProjects(response.data.items || []);
-    } catch (error) {
-      console.error('Failed to fetch approved projects:', error);
-    }
-  };
 
   const handleProposalChange = (event) => {
     const { name, value } = event.target;
