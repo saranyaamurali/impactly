@@ -27,10 +27,10 @@ export default function NgoDashboardPage() {
   const [uploadMessage, setUploadMessage] = useState('');
   const [selectedPartnership, setSelectedPartnership] = useState(null);
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     fetchNgoData();
     fetchApprovedProjects();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const fetchNgoData = async () => {

@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import api from '../services/api';
 import '../styles/Matchmaking.css';
 
@@ -15,11 +14,10 @@ export default function MatchmakingPage() {
     budget: 'all',
   });
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     fetchData();
   }, []);
-
-  // eslint-disable-next-line react-hooks/exhaustive-deps
 
   const fetchData = async () => {
     try {
