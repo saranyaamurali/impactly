@@ -4,7 +4,6 @@ import { loginAdmin, setAuthToken } from '../services/api';
 import '../styles/AuthPages.css';
 
 export default function AdminLoginPage() {
-  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: '',
     password: ''

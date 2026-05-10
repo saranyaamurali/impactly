@@ -30,6 +30,7 @@ export default function NgoDashboardPage() {
   useEffect(() => {
     fetchNgoData();
     fetchApprovedProjects();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const fetchNgoData = async () => {

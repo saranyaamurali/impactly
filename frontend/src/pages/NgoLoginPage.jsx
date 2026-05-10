@@ -4,7 +4,6 @@ import api from '../services/api';
 import '../styles/AuthPages.css';
 
 export default function NgoLoginPage() {
-  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: '',
     password: '',

@@ -4,7 +4,6 @@ import { registerCorporate, setAuthToken } from '../services/api';
 import '../styles/AuthPages.css';
 
 export default function CorporateRegisterPage() {
-  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     companyName: '',
     email: '',

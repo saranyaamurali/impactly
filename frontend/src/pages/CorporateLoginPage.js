@@ -4,7 +4,6 @@ import { loginCorporate, setAuthToken } from '../services/api';
 import '../styles/AuthPages.css';
 
 export default function CorporateLoginPage() {
-  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: '',
     password: '',
